@@ -4,6 +4,8 @@ enum custom_keycodes {
     RUNTESTS = SAFE_RANGE,
 	FORMAT,
 	COVER_ALL,
+	COMMENT,
+	UNCOMMENT,
 	KVM_1,
 	KVM_2,
 };
@@ -27,6 +29,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		case COVER_ALL:
         if (record->event.pressed) {
             SEND_STRING(SS_LCTL("uk"));
+        } else {
+        }
+        break;
+
+		case COMMENT:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LCTL("kc"));
+        } else {
+        }
+        break;
+
+		case UNCOMMENT:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LCTL("ku"));
         } else {
         }
         break;
@@ -63,5 +79,5 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[1] = LAYOUT_split_3x6_3(KC_NO, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_NO, KC_PSCR, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_CAPS, KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, KC_NO, KC_NO, KC_NO, KC_NO, KC_RALT, KC_NO, KC_NO, KC_NO, KC_HOME, KC_PGDN, KC_PGUP, KC_END, KC_NO, KC_NO, KC_INS, KC_TRNS, KC_TAB, KC_ENT, LT(3,KC_BSPC), KC_DEL),
 	[2] = LAYOUT_split_3x6_3(KC_NO, KC_NO, KC_EXLM, KC_LT, KC_GT, KC_NO, KC_NO, KC_LBRC, KC_RBRC, KC_UNDS, KC_NO, KC_NO, KC_NO, KC_BSLS, KC_HASH, KC_LPRN, KC_RPRN, KC_PIPE, KC_PERC, KC_LCBR, KC_RCBR, KC_EQL, KC_BSLS, KC_NO, KC_NO, KC_NO, KC_GRV, KC_ASTR, KC_PLUS, KC_NO, KC_NO, KC_AMPR, KC_CIRC, KC_TILD, KC_NO, KC_NO, KC_NO, LT(3,KC_SPC), KC_NO, KC_TRNS, KC_NO, KC_NO),
 	[3] = LAYOUT_split_3x6_3(KC_F11, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F12, KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, KC_NO, KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_NO, KC_NO, KC_RALT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_RALT, KC_NO, RESET, KC_NO, KC_TRNS, KC_NO, KC_NO, KC_TRNS, KC_NO),
-	[4] = LAYOUT_split_3x6_3(KC_NO, KVM_1, KVM_2, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_CUT, KC_COPY, KC_PSTE, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, COVER_ALL, FORMAT, RUNTESTS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, KC_NO, KC_NO, KC_NO)
+	[4] = LAYOUT_split_3x6_3(KVM_1, KC_NO, KC_NO, UNCOMMENT, COMMENT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KVM_2, KC_NO, LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, COVER_ALL, FORMAT, RUNTESTS, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_TRNS, KC_NO, KC_NO, KC_NO)
 };
