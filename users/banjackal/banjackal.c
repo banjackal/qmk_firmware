@@ -9,6 +9,7 @@ enum custom_keycodes {
 	KVM_1,
 	KVM_2,
     WIN_TERM,
+    LAMBDA
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -73,6 +74,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         } else {
         }
         break;
+
+        case LAMBDA:
+        if (record->event.pressed) {
+            SEND_STRING("=>");
+        } else {
+        }
+        break;
     }
     return true;
 };
@@ -91,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     U_NP,     U_NP,     U_NP,     KC_INS,   KC_TRNS,  KC_TAB,     KC_ENT,   LT(FN,KC_BSPC), KC_DEL,   U_NP,     U_NP, U_NP
         ),
   [SYM] = LAYOUT_banjackal(
-    U_NA, U_NA,     KC_EXLM,  KC_LT,    KC_GT,          U_NA,       U_NA,     KC_LBRC,  KC_RBRC,      KC_UNDS,  U_NA,     U_NA,
+    U_NA, U_NA,     KC_EXLM,  KC_LT,    KC_GT,          LAMBDA,     U_NA,     KC_LBRC,  KC_RBRC,      KC_UNDS,  U_NA,     U_NA,
     U_NA, KC_BSLS,  KC_HASH,  KC_LPRN,  KC_RPRN,        KC_PIPE,    KC_PERC,  KC_LCBR,  KC_RCBR,      KC_EQL,   KC_BSLS,  U_NA,
     U_NA, U_NA,     KC_GRV,   KC_ASTR,  KC_PLUS,        U_NA,       U_NA,     KC_AMPR,  KC_CIRC,      KC_TILD,  U_NA,     U_NA,
     U_NP, U_NP,     U_NP,     U_NA,     LT(FN,KC_SPC),  U_NA,       KC_TRNS,  U_NA,     U_NA,         U_NP,     U_NP,     U_NP
