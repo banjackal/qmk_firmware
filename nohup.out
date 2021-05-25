@@ -1,0 +1,1 @@
+dogecoin-qt: /home/ubuntu/build/dogecoin/depends/x86_64-linux-gnu/share/../include/boost/thread/pthread/recursive_mutex.hpp:113: void boost::recursive_mutex::lock(): Assertion `!pthread_mutex_lock(&m)' failed.

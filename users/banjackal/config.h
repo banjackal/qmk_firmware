@@ -8,3 +8,5 @@
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define TAPPING_FORCE_HOLD
+
+#define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
