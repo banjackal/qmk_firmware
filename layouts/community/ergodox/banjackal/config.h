@@ -2,6 +2,10 @@
 
 #pragma once
 
+#if defined(COMBO_ENABLE)
+#    define COMBO_COUNT 3
+#endif  // !COMBO_ENABLE
+
 #define XXX KC_NO
 
 #define LAYOUT_banjackal(\
