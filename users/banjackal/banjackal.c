@@ -6,11 +6,8 @@
         COVER_ALL,
         COMMENT,
         UNCOMMENT,
-        KVM_1,
-        KVM_2,
         WIN_TERM,
-        LAMBDA,
-        SHRUG
+        LAMBDA
     };
 
     bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -50,24 +47,6 @@
             }
             break;
 
-            case KVM_1:
-            if (record->event.pressed) {
-                tap_code(KC_LCTL);
-                tap_code(KC_LCTL);
-                tap_code(KC_1);
-            } else {
-            }
-            break;
-
-            case KVM_2:
-            if (record->event.pressed) {
-                tap_code(KC_LCTL);
-                tap_code(KC_LCTL);
-                tap_code(KC_2);
-            } else {
-            }
-            break;
-
             case WIN_TERM:
             if (record->event.pressed) {
                 SEND_STRING(SS_LGUI("r") SS_DELAY(200) "wt");
@@ -82,16 +61,6 @@
             } else {
             }
             break;
-
-
-
-
-            case SHRUG:
-            if (record->event.pressed) {
-                send_unicode_hex_string("00af 005c 005f 0028 30c4 0029 005f 002f 00af");
-            } else {
-            }
-            break;
         }
         return true;
     };
@@ -99,17 +68,20 @@
     enum combos {
         QC_ESC,
         MW_INS,
-        JK_DEL
+        JK_DEL,
+        CAPS
     };
 
-    const uint16_t PROGMEM qc_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
+    const uint16_t PROGMEM esc_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
     const uint16_t PROGMEM mw_combo[] = {KC_M, KC_W, COMBO_END};
     const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+    const uint16_t PROGMEM caps_combo[] = {KC_K, KC_M, COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
-        [QC_ESC] = COMBO(qc_combo, KC_ESC),
+        [QC_ESC] = COMBO(esc_combo, KC_ESC),
         [MW_INS] = COMBO(mw_combo, KC_DEL),
-        [JK_DEL] = COMBO(jk_combo, KC_INS)
+        [JK_DEL] = COMBO(jk_combo, KC_INS),
+        [CAPS] = COMBO(caps_combo, KC_CAPS)
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -121,7 +93,7 @@
             ),
     [NUM] = LAYOUT_banjackal(
         U_NA,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,           KC_8,     KC_9,     KC_0, U_NA,
-        U_NA,  KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  KC_CAPS,    KC_LEFT,  KC_DOWN,        KC_UP,    KC_RGHT,  U_NA, U_NA,
+        U_NA,  KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  U_NA,       KC_LEFT,  KC_DOWN,        KC_UP,    KC_RGHT,  U_NA, U_NA,
         U_NA,  U_NA,     KC_RALT,  U_NA,     U_NA,     U_NA,       KC_HOME,  KC_PGDN,        KC_PGUP,  KC_END,   U_NA, U_NA,
         U_NP,  U_NP,     U_NP,     U_NA,     KC_TRNS,  KC_TAB,     KC_ENT,   LT(FN,KC_BSPC), KC_DEL,   U_NP,     U_NP, U_NP
             ),
@@ -134,13 +106,13 @@
     [FN] = LAYOUT_banjackal(
         U_NA,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   U_NA,
         U_NA,   KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  KC_F11,   KC_F12, KC_LSFT,  KC_LCTL,  KC_LALT,  KC_LGUI,  U_NA,
-        U_NA,   U_NA,     KC_RALT,  U_NA,     U_NA,     U_NA,     U_NA,   U_NA,     U_NA,     KC_RALT,  RESET,    U_NA,
+        U_NA,   CMB_TOG,  KC_RALT,  U_NA,     U_NA,     U_NA,     U_NA,   U_NA,     U_NA,     KC_RALT,  RESET,    U_NA,
         U_NP,   U_NP,     U_NP,     U_NA,     KC_TRNS,  U_NA,     U_NA,   KC_TRNS,  U_NA,     U_NP,     U_NP,     U_NP
             ),
     [MCRO] = LAYOUT_banjackal(
-        U_NA,  KVM_1,   U_NA,       UNCOMMENT,  COMMENT,    KC__MUTE,       U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
-        U_NA,  KVM_2,   LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC__VOLUP,      U_NA, U_NA, WIN_TERM, U_NA, U_NA,     U_NA,
-        U_NA,  KC_PSCR, COVER_ALL,  FORMAT,     RUNTESTS,   KC__VOLDOWN,    U_NA, SHRUG, U_NA,     U_NA, U_NA,     U_NA,
+        U_NA,  U_NA,    U_NA,       UNCOMMENT,  COMMENT,    KC__MUTE,       U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
+        U_NA,  U_NA,    LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC__VOLUP,      U_NA, U_NA, WIN_TERM, U_NA, U_NA,     U_NA,
+        U_NA,  KC_PSCR, COVER_ALL,  FORMAT,     RUNTESTS,   KC__VOLDOWN,    U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
         U_NP,  U_NP,    U_NP,       U_NA,       U_NA,       KC_TRNS,        U_NA, U_NA, U_NA,     U_NP, U_NP,     U_NP
         )
     };
