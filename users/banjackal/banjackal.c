@@ -66,48 +66,54 @@
     };
 
     enum combos {
-        QC_ESC,
-        MW_INS,
-        JK_DEL,
-        CAPS
+        TAB,
+        ESC,
+        INS,
+        DEL,
+        CAPS,
+        ENTER
     };
 
-    const uint16_t PROGMEM esc_combo[] = {LGUI_T(KC_A), LALT_T(KC_O), COMBO_END};
-    const uint16_t PROGMEM mw_combo[] = {KC_M, KC_W, COMBO_END};
-    const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-    const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_U), LSFT_T(KC_H), COMBO_END};
+    const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
+    const uint16_t PROGMEM esc_combo[] = {KC_A, KC_O, COMBO_END};
+    const uint16_t PROGMEM del_combo[] = {KC_R, KC_L, COMBO_END};
+    const uint16_t PROGMEM ins_combo[] = {KC_G, KC_C, COMBO_END};
+    const uint16_t PROGMEM enter_combo[] = {KC_N, KC_S, COMBO_END};
+    const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_SCLN), LSFT_T(KC_Z), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
-        [QC_ESC] = COMBO(esc_combo, KC_ESC),
-        [MW_INS] = COMBO(mw_combo, KC_DEL),
-        [JK_DEL] = COMBO(jk_combo, KC_INS),
-        [CAPS] = COMBO(caps_combo, KC_CAPS)
+        [TAB] = COMBO (tab_combo, KC_TAB),
+        [ESC] = COMBO(esc_combo, KC_ESC),
+        [DEL] = COMBO(del_combo, KC_DEL),
+        [INS] = COMBO(ins_combo, KC_INS),
+        [CAPS] = COMBO(caps_combo, KC_CAPS),
+        [ENTER] = COMBO(enter_combo, KC_ENT)
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_banjackal(
-        U_NA,  KC_QUOT,      KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,             KC_C,         KC_R,         KC_L,         U_NA,
-        U_NA,  LGUI_T(KC_A), LALT_T(KC_O), LCTL_T(KC_E), LSFT_T(KC_U),   KC_I,                   KC_D,    LSFT_T(KC_H),     LCTL_T(KC_T), LALT_T(KC_N), LGUI_T(KC_S), U_NA,
-        U_NA,  KC_SCLN,      RALT_T(KC_Q), KC_J,         KC_K,           KC_X,                   KC_B,    KC_M,             KC_W,         RALT_T(KC_V), KC_Z,         U_NA,
-        U_NP,  U_NP,         U_NP,         U_NA,         LT(NUM,KC_SPC), LT(MCRO,KC_TAB),        KC_ENT,  LT(SYM,KC_BSPC),  U_NA,       U_NP,         U_NP,         U_NP
+        U_NA,  KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,     KC_C,         KC_R,         KC_L,         U_NA,
+        U_NA,  KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,     KC_T,         KC_N,         KC_S,         U_NA,
+        U_NA,  LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    KC_M,     RALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z), U_NA,
+        U_NP,  U_NP,  U_NP,         U_NA,                 U_NA,    MO(MCRO),        LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN),       U_NP,         U_NP,         U_NP
             ),
     [NUM] = LAYOUT_banjackal(
         U_NA,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,           KC_8,     KC_9,     KC_0, U_NA,
-        U_NA,  KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  U_NA,       KC_LEFT,  KC_DOWN,        KC_UP,    KC_RGHT,  U_NA, U_NA,
-        U_NA,  U_NA,     KC_RALT,  U_NA,     U_NA,     U_NA,       KC_HOME,  KC_PGDN,        KC_PGUP,  KC_END,   U_NA, U_NA,
-        U_NP,  U_NP,     U_NP,     U_NA,     KC_TRNS,  KC_TAB,     KC_ENT,   LT(FN,KC_BSPC), KC_DEL,   U_NP,     U_NP, U_NP
+        U_NA,  U_NA,     U_NA,     U_NA,     U_NA,     U_NA,       KC_LEFT,  KC_DOWN,        KC_UP,    KC_RGHT,  U_NA, U_NA,
+        U_NA,  KC_LSFT,  KC_LCTL,  KC_LALT,  KC_LGUI,  U_NA,       KC_HOME,  KC_PGDN,        KC_PGUP,  KC_END,   U_NA, U_NA,
+        U_NP,  U_NP,     U_NP,     U_NA,     U_NA,     U_NA,       KC_TRNS,  U_NA, U_NA,   U_NP,     U_NP, U_NP
             ),
     [SYM] = LAYOUT_banjackal(
-        U_NA, KC_EXLM,  KC_AT,    KC_LT,    KC_GT,          LAMBDA,     U_NA,     KC_LBRC,  KC_RBRC,      KC_UNDS,  KC_SLSH,  U_NA,
-        U_NA, KC_BSLS,  KC_HASH,  KC_LPRN,  KC_RPRN,        KC_PIPE,    KC_PERC,  KC_LCBR,  KC_RCBR,      KC_EQL,   KC_MINS,  U_NA,
-        U_NA, KC_QUES,  KC_GRV,   KC_ASTR,  KC_PLUS,        U_NA,       U_NA,     KC_AMPR,  KC_CIRC,      KC_TILD,  KC_DLR,   U_NA,
-        U_NP, U_NP,     U_NP,     U_NA,     LT(FN,KC_SPC),  U_NA,       KC_TRNS,  U_NA,     U_NA,         U_NP,     U_NP,     U_NP
+        U_NA, KC_EXLM,  KC_AT,    KC_LT,    KC_GT,    LAMBDA,       U_NA,     KC_LBRC,  KC_RBRC,      KC_UNDS,  KC_SLSH,  U_NA,
+        U_NA, KC_BSLS,  KC_HASH,  KC_LPRN,  KC_RPRN,  KC_PIPE,      KC_PERC,  KC_LCBR,  KC_RCBR,      KC_EQL,   KC_MINS,  U_NA,
+        U_NA, KC_QUES,  KC_GRV,   KC_ASTR,  KC_PLUS,  U_NA,         U_NA,     KC_AMPR,  KC_CIRC,      KC_TILD,  KC_DLR,   U_NA,
+        U_NP, U_NP,     U_NP,     U_NA,     U_NA,     U_NA,         KC_TRNS,    U_NA,     U_NA,     U_NP,         U_NP,     U_NP
             ),
     [FN] = LAYOUT_banjackal(
-        U_NA,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_F7,    KC_F8,    KC_F9,    KC_F10,   U_NA,
-        U_NA,   KC_LGUI,  KC_LALT,  KC_LCTL,  KC_LSFT,  KC_F11,   KC_F12, KC_LSFT,  KC_LCTL,  KC_LALT,  KC_LGUI,  U_NA,
-        U_NA,   CMB_TOG,  KC_RALT,  U_NA,     U_NA,     U_NA,     U_NA,   U_NA,     U_NA,     KC_RALT,  RESET,    U_NA,
-        U_NP,   U_NP,     U_NP,     U_NA,     KC_TRNS,  U_NA,     U_NA,   KC_TRNS,  U_NA,     U_NP,     U_NP,     U_NP
+        U_NA,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,  KC_F7,    KC_F8,    KC_F9, KC_F10, U_NA,
+        U_NA,   CMB_TOG,  KC_LALT,  KC_LCTL,  KC_LSFT,  KC_F11,   KC_F12, U_NA,     U_NA,     U_NA,  U_NA,   U_NA,
+        U_NA,   KC_LSFT,  KC_LCTL,  KC_LALT,  KC_LGUI,  U_NA,     U_NA,   U_NA,     KC_RALT,  U_NA,  RESET,  U_NA,
+        U_NP,   U_NP,     U_NP,     U_NA,     U_NA,  U_NA,       U_NA,   U_NA,  KC_TRNS,     U_NP,     U_NP,   U_NP
             ),
     [MCRO] = LAYOUT_banjackal(
         U_NA,  U_NA,    U_NA,       UNCOMMENT,  COMMENT,    KC__MUTE,       U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
