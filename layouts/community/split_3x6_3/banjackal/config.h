@@ -3,7 +3,7 @@
 #pragma once
 
 #if defined(COMBO_ENABLE)
-#    define COMBO_COUNT 6
+#    define COMBO_COUNT 7
 #endif  // !COMBO_ENABLE
 
 #define LAYOUT_banjackal(\

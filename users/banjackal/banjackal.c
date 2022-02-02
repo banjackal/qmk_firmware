@@ -71,7 +71,8 @@
         INS,
         DEL,
         CAPS,
-        ENTER
+        ENTER,
+        R_ALT
     };
 
     const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
@@ -80,6 +81,7 @@
     const uint16_t PROGMEM ins_combo[] = {KC_G, KC_C, COMBO_END};
     const uint16_t PROGMEM enter_combo[] = {KC_N, KC_S, COMBO_END};
     const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_SCLN), LSFT_T(KC_Z), COMBO_END};
+    const uint16_t PROGMEM r_alt_combo[] = {LALT_T(KC_J), LALT_T(KC_W), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
         [TAB] = COMBO (tab_combo, KC_TAB),
@@ -87,15 +89,16 @@
         [DEL] = COMBO(del_combo, KC_DEL),
         [INS] = COMBO(ins_combo, KC_INS),
         [CAPS] = COMBO(caps_combo, KC_CAPS),
-        [ENTER] = COMBO(enter_combo, KC_ENT)
+        [ENTER] = COMBO(enter_combo, KC_ENT),
+        [R_ALT] = COMBO(r_alt_combo, KC_RALT)
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_banjackal(
-        U_NA,  KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,     KC_C,         KC_R,         KC_L,         U_NA,
-        U_NA,  KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,     KC_T,         KC_N,         KC_S,         U_NA,
-        U_NA,  LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    KC_M,     RALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z), U_NA,
-        U_NP,  U_NP,  U_NP,         U_NA,                 U_NA,    MO(MCRO),        LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN),       U_NP,         U_NP,         U_NP
+        U_NA,  KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,          KC_C,         KC_R,         KC_L,         U_NA,
+        U_NA,  KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,          KC_T,         KC_N,         KC_S,         U_NA,
+        U_NA,  LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    LGUI_T(KC_M),  LALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z), U_NA,
+        U_NP,  U_NP,  U_NP,         U_NA,     U_NA,         LT(MCRO, KC_TAB),        LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN),       U_NP,         U_NP,         U_NP
             ),
     [NUM] = LAYOUT_banjackal(
         U_NA,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,           KC_8,     KC_9,     KC_0, U_NA,
