@@ -1,4 +1,5 @@
 #pragma once
+#define COMBO_COUNT 8
 
 // default but used in macros
 #define TAPPING_TERM 175
