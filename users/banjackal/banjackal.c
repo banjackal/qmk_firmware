@@ -72,7 +72,8 @@
         DEL,
         CAPS,
         ENTER,
-        R_ALT
+        R_ALT,
+        GAME_LR
     };
 
     const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
@@ -82,6 +83,7 @@
     const uint16_t PROGMEM enter_combo[] = {KC_N, KC_S, COMBO_END};
     const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_SCLN), LSFT_T(KC_Z), COMBO_END};
     const uint16_t PROGMEM r_alt_combo[] = {LALT_T(KC_J), LALT_T(KC_W), COMBO_END};
+    const uint16_t PROGMEM g_lr_combo[] = {LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
         [TAB] = COMBO (tab_combo, KC_TAB),
@@ -90,7 +92,8 @@
         [INS] = COMBO(ins_combo, KC_INS),
         [CAPS] = COMBO(caps_combo, KC_CAPS),
         [ENTER] = COMBO(enter_combo, KC_ENT),
-        [R_ALT] = COMBO(r_alt_combo, KC_RALT)
+        [R_ALT] = COMBO(r_alt_combo, KC_RALT),
+        [GAME_LR] = COMBO(g_lr_combo, TG(GAME))
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -123,7 +126,13 @@
         U_NA,  U_NA,    LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC__VOLUP,      U_NA, U_NA, WIN_TERM, U_NA, U_NA,     U_NA,
         U_NA,  KC_PSCR, COVER_ALL,  FORMAT,     RUNTESTS,   KC__VOLDOWN,    U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
         U_NP,  U_NP,    U_NP,       U_NA,       U_NA,       KC_TRNS,        U_NA, U_NA, U_NA,     U_NP, U_NP,     U_NP
-        )
+        ),
+    [GAME] = LAYOUT_banjackal(
+        U_NA,  KC_Z,    KC_Q,       KC_F,       KC_E,    KC_G,      U_NA, U_NA, U_NA,     U_NA, KC_1,     U_NA,
+        U_NA,  KC_LSFT, KC_A,       KC_W,       KC_D,    KC_T,      U_NA, U_NA, U_NA,     U_NA, KC_2,     U_NA,
+        U_NA,  KC_LCTL, KC_X,       KC_S,       KC_C,    KC_B,      U_NA, U_NA, U_NA,     U_NA, KC_3,     U_NA,
+        U_NP,  U_NP,    U_NP,       KC_ESC,     KC_SPC,    KC_R,      KC_TRNS, KC_TRNS, KC_TRNS,     U_NP, U_NP,     U_NP
+        ),
     };
 
     #ifdef OLED_DRIVER_ENABLE
