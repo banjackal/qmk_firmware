@@ -1,60 +1,11 @@
     #include "banjackal.h"
 
     enum custom_keycodes {
-        RUNTESTS = SAFE_RANGE,
-        FORMAT,
-        COVER_ALL,
-        COMMENT,
-        UNCOMMENT,
-        WIN_TERM,
-        LAMBDA
+        LAMBDA = SAFE_RANGE,
     };
 
     bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
-        case RUNTESTS:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("ul"));
-            } else {
-            }
-            break;
-
-            case FORMAT:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("kd"));
-            } else {
-            }
-            break;
-
-            case COVER_ALL:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("uk"));
-            } else {
-            }
-            break;
-
-            case COMMENT:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("kc"));
-            } else {
-            }
-            break;
-
-            case UNCOMMENT:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LCTL("ku"));
-            } else {
-            }
-            break;
-
-            case WIN_TERM:
-            if (record->event.pressed) {
-                SEND_STRING(SS_LGUI("r") SS_DELAY(200) "wt");
-                tap_code(KC_ENT);
-            } else {
-            }
-            break;
-
             case LAMBDA:
             if (record->event.pressed) {
                 SEND_STRING("=>");
@@ -101,7 +52,7 @@
         U_NA,  KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,          KC_C,         KC_R,         KC_L,         U_NA,
         U_NA,  KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,          KC_T,         KC_N,         KC_S,         U_NA,
         U_NA,  LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    LGUI_T(KC_M),  LALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z), U_NA,
-        U_NP,  U_NP,  U_NP,         U_NA,     U_NA,         LT(MCRO, KC_TAB),        LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN),       U_NP,         U_NP,         U_NP
+        U_NP,  U_NP,  U_NP,         U_NA,     U_NA,         MO(MCRO),                      LT(NUM,KC_BSPC),  LT(SYM,KC_SPC),  MO(FN),       U_NP,         U_NP,         U_NP
             ),
     [NUM] = LAYOUT_banjackal(
         U_NA,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,           KC_8,     KC_9,     KC_0, U_NA,
@@ -122,9 +73,9 @@
         U_NP,   U_NP,     U_NP,     U_NA,     U_NA,  U_NA,       U_NA,   U_NA,  KC_TRNS,     U_NP,     U_NP,   U_NP
             ),
     [MCRO] = LAYOUT_banjackal(
-        U_NA,  U_NA,    U_NA,       UNCOMMENT,  COMMENT,    KC__MUTE,       U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
-        U_NA,  U_NA,    LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC__VOLUP,      U_NA, U_NA, WIN_TERM, U_NA, U_NA,     U_NA,
-        U_NA,  KC_PSCR, COVER_ALL,  FORMAT,     RUNTESTS,   KC__VOLDOWN,    U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
+        U_NA,  U_NA,    U_NA,       U_NA,       U_NA,       KC__MUTE,       U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
+        U_NA,  U_NA,    U_NA,       U_NA,       U_NA,       KC__VOLUP,      U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
+        U_NA,  KC_PSCR, U_NA,       U_NA,       U_NA,       KC__VOLDOWN,    U_NA, U_NA, U_NA,     U_NA, U_NA,     U_NA,
         U_NP,  U_NP,    U_NP,       U_NA,       U_NA,       KC_TRNS,        U_NA, U_NA, U_NA,     U_NP, U_NP,     U_NP
         ),
     [GAME] = LAYOUT_banjackal(
