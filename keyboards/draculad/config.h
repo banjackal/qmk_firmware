@@ -19,6 +19,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
+#define COMBO_COUNT 9
+
+// default but used in macros
+#define TAPPING_TERM 175
+
+// Prevent normal rollover on alphas from accidentally triggering mods.
+#define IGNORE_MOD_TAP_INTERRUPT
+
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+#define TAPPING_FORCE_HOLD
+
 #define VENDOR_ID 0xFEED
 #define PRODUCT_ID 0x1B1E
 #define DEVICE_VER 0x0001

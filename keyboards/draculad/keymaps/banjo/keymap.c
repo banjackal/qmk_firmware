@@ -1,81 +1,103 @@
-/*
-Copyright 2021 @mangoiv
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include QMK_KEYBOARD_H
 
+    enum custom_keycodes {
+        LAMBDA = SAFE_RANGE,
+    };
 
-enum layer_number {
-  _BASE,
-  _NUM,
-  _SYMB,
-  _MUS,
-  _ADJ
-};
+    bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+        switch (keycode) {
+            case LAMBDA:
+            if (record->event.pressed) {
+                SEND_STRING("=>");
+            } else {
+            }
+            break;
+        }
+        return true;
+    };
 
-enum custom_keycodes {
-  BALL_HUI = SAFE_RANGE, //cycles hue
-  BALL_WHT,              //cycles white
-  BALL_DEC,              //decreased color
-  BALL_SCR,              //scrolls
-  BALL_NCL,              //left click
-  BALL_RCL,              //right click
-  BALL_MCL,              //middle click
-};
+    enum layer_number {
+        _BASE,
+        _NUM,
+        _SYM,
+        _FN,
+        _GAME
+    };
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE] =  LAYOUT_draculad(
-        KC_Q,         KC_W,    KC_E,    KC_R,    KC_T,                                         KC_Y,            KC_U,             KC_I,    KC_O,    KC_P,
-        KC_A,         KC_S,    KC_D,    KC_F,    KC_G,                                         KC_H,            KC_J,             KC_K,    KC_L,    KC_SCLN,
-        LSFT_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B,                                         KC_N,            KC_M,             KC_COMM, KC_DOT,  RSFT_T(KC_SLSH),
-                                                 KC_MUTE,                                      TG(_ADJ),
-                                        KC_LCTL, LALT_T(KC_BSPC), LT(_MUS,KC_SPC),    KC_NO,   LT(_NUM,KC_ENT), LT(_SYMB,KC_DEL)
-    ),
+    enum combos {
+        TAB,
+        ESC,
+        INS,
+        DEL,
+        CAPS,
+        ENTER,
+        R_ALT,
+        R_CTL,
+        GAME_LR
+    };
+
+    const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
+    const uint16_t PROGMEM esc_combo[] = {KC_A, KC_O, COMBO_END};
+    const uint16_t PROGMEM del_combo[] = {KC_R, KC_L, COMBO_END};
+    const uint16_t PROGMEM ins_combo[] = {KC_G, KC_C, COMBO_END};
+    const uint16_t PROGMEM enter_combo[] = {KC_N, KC_S, COMBO_END};
+    const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_SCLN), LSFT_T(KC_Z), COMBO_END};
+    const uint16_t PROGMEM r_alt_combo[] = {LALT_T(KC_J), LALT_T(KC_W), COMBO_END};
+    const uint16_t PROGMEM r_ctl_combo[] = {LCTL_T(KC_Q), LCTL_T(KC_V), COMBO_END};
+    const uint16_t PROGMEM g_lr_combo[] = {LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN), COMBO_END};
+
+    combo_t key_combos[COMBO_COUNT] = {
+        [TAB] = COMBO (tab_combo, KC_TAB),
+        [ESC] = COMBO(esc_combo, KC_ESC),
+        [DEL] = COMBO(del_combo, KC_DEL),
+        [INS] = COMBO(ins_combo, KC_INS),
+        [CAPS] = COMBO(caps_combo, KC_CAPS),
+        [ENTER] = COMBO(enter_combo, KC_ENT),
+        [R_ALT] = COMBO(r_alt_combo, KC_RALT),
+        [R_CTL] = COMBO(r_ctl_combo, KC_RCTL),
+        [GAME_LR] = COMBO(g_lr_combo, TG(_GAME))
+    };
+
+    const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [_BASE] = LAYOUT_draculad(
+        KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,          KC_C,         KC_R,         KC_L,
+        KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,          KC_T,         KC_N,         KC_S,
+        LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    LGUI_T(KC_M),  LALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z),
+        XXXXXXX,                                              KC_MUTE,
+                                            XXXXXXX,     XXXXXXX,         XXXXXXX,                      LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN)
+            ),
     [_NUM] = LAYOUT_draculad(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_TAB,  KC_MUTE, KC_VOLD, KC_VOLU, XXXXXXX,                      KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_QUOT,
-        KC_LSFT, XXXXXXX, KC_MPRV, KC_MNXT, RESET,                        KC_HOME, KC_END,  KC_PGUP, KC_PGDN, KC_RSFT,
-                                            XXXXXXX,                      KC_NO,
-                                   KC_LCTL, KC_LALT, XXXXXXX,    KC_NO,   _______, KC_ENT
-    ),
-    [_SYMB] = LAYOUT_draculad(
-        KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,                        XXXXXXX, XXXXXXX, XXXXXXX, KC_EQL,  KC_MINS,
-        XXXXXXX, KC_F5,   KC_F6,   KC_F7,   KC_F8,                        KC_LBRC, KC_RBRC, XXXXXXX, KC_GRV,  KC_BSLS,
-        KC_LSFT, KC_F9,   KC_F10,  KC_F11,  KC_F12,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_RSFT,
-                                            XXXXXXX,                      KC_NO,
-                                   KC_LALT, XXXXXXX, XXXXXXX,    XXXXXXX, KC_NO,   _______
-    ),
-    [_MUS] = LAYOUT_draculad(
-        KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        KC_LALT, KC_BTN3, KC_BTN2, KC_BTN1, BALL_SCR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                            XXXXXXX,                       XXXXXXX,
-                                   XXXXXXX, XXXXXXX,  XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-    ),
-    [_ADJ] = LAYOUT_draculad(
-        RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      BALL_HUI, BALL_WHT, BALL_DEC, XXXXXXX, XXXXXXX,
-        EEP_RST, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_MOD,  RGB_HUI,  RGB_SAI,  RGB_VAI, RGB_TOG,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      RGB_RMOD, RGB_HUD,  RGB_SAD,  RGB_VAD, _______,
-                                            XXXXXXX,                      _______,
-                                   XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,  XXXXXXX
-    )
-};
-
-
+          KC_1,     KC_2,     KC_3,     KC_4,     KC_5,       KC_6,     KC_7,           KC_8,     KC_9,     KC_0,
+                    XXXXXXX,     XXXXXXX,XXXXXXX,     XXXXXXX,XXXXXXX,       KC_LEFT,  KC_DOWN,        KC_UP,    KC_RGHT,  XXXXXXX,
+          KC_LSFT,  KC_LCTL,  KC_LALT,  KC_LGUI,  XXXXXXX,       KC_HOME,  KC_PGDN,        KC_PGUP,  KC_END,   XXXXXXX,
+                  XXXXXXX,                                              XXXXXXX,
+                    XXXXXXX,     XXXXXXX,     XXXXXXX,       KC_TRNS,  XXXXXXX, XXXXXXX
+            ),
+    [_SYM] = LAYOUT_draculad(
+         KC_EXLM,  KC_AT,    KC_LT,    KC_GT,    LAMBDA,       XXXXXXX,     KC_LBRC,  KC_RBRC,      KC_UNDS,  KC_SLSH,
+         KC_BSLS,  KC_HASH,  KC_LPRN,  KC_RPRN,  KC_PIPE,      KC_PERC,  KC_LCBR,  KC_RCBR,      KC_EQL,   KC_MINS,
+         KC_QUES,  KC_GRV,   KC_ASTR,  KC_PLUS,  XXXXXXX,         XXXXXXX,     KC_AMPR,  KC_CIRC,      KC_TILD,  KC_DLR,
+                                     XXXXXXX,                                              XXXXXXX,
+XXXXXXX,     XXXXXXX,     XXXXXXX,         KC_TRNS,    XXXXXXX,     XXXXXXX
+            ),
+    [_FN] = LAYOUT_draculad(
+           KC_F1,    KC_F2,    KC_F3,       KC_F4,     KC_F5,    KC_F6,  KC_F7,    KC_F8,    KC_F9,   KC_F10,
+           XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, KC_F11,   KC_F12, XXXXXXX,     XXXXXXX,     XXXXXXX,    KC_PSCR,
+           KC_LSFT,  KC_LCTL,  KC_LALT,     KC_LGUI,   XXXXXXX,     XXXXXXX,   KC_LGUI,  KC_LALT,  KC_LCTL, KC_LSFT,
+                  XXXXXXX,                                              XXXXXXX,
+                     XXXXXXX,        XXXXXXX,      XXXXXXX,       XXXXXXX,   XXXXXXX,  KC_TRNS
+            ),
+    [_GAME] = LAYOUT_draculad(
+          KC_Z,    KC_Q,       KC_F,       KC_E,    KC_G,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_1,
+          KC_LSFT, KC_A,       KC_W,       KC_D,    KC_T,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_2,
+          KC_LCTL, KC_X,       KC_S,       KC_C,    KC_B,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_3,
+                  XXXXXXX,                                              XXXXXXX,
+                     KC_ESC,     KC_SPC,    KC_R,      KC_TRNS, KC_TRNS, KC_TRNS
+        ),
+    };
 #ifdef OLED_ENABLE
+
+
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
  if (is_keyboard_master()) {
@@ -162,14 +184,6 @@ static void render_logo(void) {
 
 static void render_status(void) {
     oled_write_P(PSTR("This is\n~~~~~~~~~\nDracu\nLad\n~~~~~~~~~\nv1.0\n~~~~~~~~~\n"), false);
-    uint8_t n = get_current_wpm();
-    char    wpm_counter[4];
-    wpm_counter[3] = '\0';
-    wpm_counter[2] = '0' + n % 10;
-    wpm_counter[1] = (n /= 10) % 10 ? '0' + (n) % 10 : (n / 10) % 10 ? '0' : ' ';
-    wpm_counter[0] = n / 10 ? '0' + n / 10 : ' ';
-    oled_write_P(PSTR("WPM:"), false);
-    oled_write(wpm_counter, false);
     led_t led_state = host_keyboard_led_state();
     oled_write_P(PSTR("\nCaps: "), false);
     oled_write_P(led_state.caps_lock ? PSTR("on ") : PSTR("off"), false);
@@ -181,14 +195,14 @@ static void render_status(void) {
         case _NUM:
             oled_write_P(PSTR("Numbers"), false);
             break;
-        case _SYMB:
+        case _SYM:
             oled_write_P(PSTR("Symbols"), false);
             break;
-        case _ADJ:
-            oled_write_P(PSTR("Adjust "), false);
+        case _FN:
+            oled_write_P(PSTR("Functn  "), false);
             break;
-        case _MUS:
-            oled_write_P(PSTR("Mouse  "), false);
+        case _GAME:
+            oled_write_P(PSTR("Game   "), false);
             break;
         default:
             oled_write_P(PSTR("Unkn "), false);
@@ -205,131 +219,25 @@ bool oled_task_user(void) {
     return false;
 }
 
-#endif //OLED_ENABLE
-
-uint8_t white = 0;
-uint8_t red = 255;
-uint8_t green = 0;
-uint8_t blue = 0;
-
-bool set_scrolling = false;
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (set_scrolling) {
-        mouse_report.h = mouse_report.x;
-        mouse_report.v = mouse_report.y;
-        mouse_report.x = mouse_report.y = 0;
-    }
-    return mouse_report;
-}
-
-void ball_increase_hue(void){
-      if(red!=255&&green!=255&&blue!=255){
-        red =255;
-      }
-      if (red==255&&green<255&&blue==0){
-       green += 15;
-      } else if(green==255&&blue==0&&red>0){
-        red-=15;
-      } else if(red==0&&blue<255&&green==255){
-        blue+=15;
-      } else if(blue==255&&green>0&&red==0){
-        green -= 15;
-      } else if(green == 0&&blue==255&&red<255){
-        red +=15;
-      } else if(green ==0&&blue>0&&red==255){
-        blue -=15;
-      }
-      pimoroni_trackball_set_rgbw(red,green,blue,white);
-}
-
-void decrease_color(void){
-  if (green>0){
-    green-=15;
-  }
-  if (red>0){
-    red-=15;
-  }
-  if (blue>0){
-    blue-=15;
-  }
-  pimoroni_trackball_set_rgbw(red,green,blue,white);
-}
-
-void cycle_white(void){
-  if (white<255){
-    white +=15;
-  } else{
-    white=0;
-  }
-  pimoroni_trackball_set_rgbw(red,green,blue,white);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record){
-  switch (keycode){
-  case  BALL_HUI:
-    if(record->event.pressed){
-      ball_increase_hue();
-    }
-    break;
-
-  case BALL_WHT:
-    if(record-> event.pressed){
-      cycle_white();
-    }
-    break;
-
-  case BALL_DEC:
-   if(record-> event.pressed){
-      decrease_color();
-    }
-    break;
-
-  case BALL_SCR:
-   if(record->event.pressed){
-     set_scrolling = true;
-   } else{
-     set_scrolling = false;
-   }
-   break;
-
-  case BALL_NCL:
-     record->event.pressed?register_code(KC_BTN1):unregister_code(KC_BTN1);
-     break;
-  case BALL_RCL:
-      record->event.pressed?register_code(KC_BTN2):unregister_code(KC_BTN2);
-      break;
-  case BALL_MCL:
-      record->event.pressed?register_code(KC_BTN3):unregister_code(KC_BTN3);
-      break;
-  }
-  return true;
-}
+#endif
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
-        // Volume control
         if (clockwise) {
-            tap_code(KC_VOLU);
+            tap_code16(C(KC_Y));
         } else {
-            tap_code(KC_VOLD);
+            tap_code16(C(KC_Z));
         }
     }
     else if (index == 2) {
-      switch (get_highest_layer(layer_state)) {
-        case _ADJ:
-            clockwise?ball_increase_hue():cycle_white();
-            break;
-        case _MUS:
-            clockwise?tap_code(KC_WH_U):tap_code(KC_WH_D);
-            break;
-        default:
-            clockwise?tap_code(KC_PGUP):tap_code(KC_PGDN);
-            break;
+      if(clockwise) {
+        tap_code(KC_VOLD);
+      }
+      else{
+        tap_code(KC_VOLU);
       }
     }
-    // I only have 2 encoders on the the pimoroni example board, just add else ifs for your other encoders...
-    // the missing ones are encoder 1 on the right side and encoder 3 on the left side
     return true;
 }
-#endif // ENCODER_ENABLE
+#endif
