@@ -18,6 +18,7 @@
 
     enum layer_number {
         _BASE,
+        _COLEMAK,
         _NUM,
         _SYM,
         _FN,
@@ -33,7 +34,13 @@
         ENTER,
         R_ALT,
         R_CTL,
-        GAME_LR
+        GAME_LR,
+        C_TAB,
+        C_ESC,
+        C_INS,
+        C_DEL,
+        C_CAPS,
+        C_ENTER
     };
 
     const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
@@ -45,9 +52,15 @@
     const uint16_t PROGMEM r_alt_combo[] = {LALT_T(KC_J), LALT_T(KC_W), COMBO_END};
     const uint16_t PROGMEM r_ctl_combo[] = {LCTL_T(KC_Q), LCTL_T(KC_V), COMBO_END};
     const uint16_t PROGMEM g_lr_combo[] = {LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN), COMBO_END};
+    const uint16_t PROGMEM c_tab_combo[] = {KC_Q, KC_W, COMBO_END};
+    const uint16_t PROGMEM c_esc_combo[] = {KC_A, KC_R, COMBO_END};
+    const uint16_t PROGMEM c_del_combo[] = {KC_Y, KC_SCLN, COMBO_END};
+    const uint16_t PROGMEM c_ins_combo[] = {KC_L, KC_U, COMBO_END};
+    const uint16_t PROGMEM c_enter_combo[] = {KC_I, KC_O, COMBO_END};
+    const uint16_t PROGMEM c_caps_combo[] = {LSFT_T(KC_Z), LSFT_T(KC_QUOT), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
-        [TAB] = COMBO (tab_combo, KC_TAB),
+        [TAB] = COMBO(tab_combo, KC_TAB),
         [ESC] = COMBO(esc_combo, KC_ESC),
         [DEL] = COMBO(del_combo, KC_DEL),
         [INS] = COMBO(ins_combo, KC_INS),
@@ -55,7 +68,13 @@
         [ENTER] = COMBO(enter_combo, KC_ENT),
         [R_ALT] = COMBO(r_alt_combo, KC_RALT),
         [R_CTL] = COMBO(r_ctl_combo, KC_RCTL),
-        [GAME_LR] = COMBO(g_lr_combo, TG(_GAME))
+        [GAME_LR] = COMBO(g_lr_combo, TG(_GAME)),
+        [C_TAB] = COMBO(c_tab_combo, KC_TAB),
+        [C_ESC] = COMBO(c_esc_combo, KC_ESC),
+        [C_DEL] = COMBO(c_del_combo, KC_DEL),
+        [C_INS] = COMBO(c_ins_combo, KC_INS),
+        [C_CAPS] = COMBO(c_caps_combo, KC_CAPS),
+        [C_ENTER] = COMBO(c_enter_combo, KC_ENT)
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -63,7 +82,14 @@
         KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,          KC_C,         KC_R,         KC_L,
         KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,          KC_T,         KC_N,         KC_S,
         LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    LGUI_T(KC_M),  LALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z),
-        XXXXXXX,                                              KC_MUTE,
+                                                      TG(_COLEMAK),                                              KC_MUTE,
+                                            XXXXXXX,     XXXXXXX,         XXXXXXX,                      LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN)
+            ),
+    [_COLEMAK] = LAYOUT_draculad(
+        KC_Q,         KC_W,         KC_F,         KC_P,         KC_B,                   KC_J,    KC_L,          KC_U,            KC_Y,           KC_SCLN,
+        KC_A,         KC_R,         KC_S,         KC_T,         KC_G,                   KC_M,    KC_N,          KC_E,            KC_I,           KC_O,
+        LSFT_T(KC_Z), LCTL_T(KC_X), LALT_T(KC_C), LGUI_T(KC_D), KC_V,                   KC_K,    LGUI_T(KC_H),  LALT_T(KC_COMM), LCTL_T(KC_DOT), LSFT_T(KC_QUOT),
+        KC_TRNS,                                              KC_MUTE,
                                             XXXXXXX,     XXXXXXX,         XXXXXXX,                      LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN)
             ),
     [_NUM] = LAYOUT_draculad(
@@ -185,27 +211,31 @@ static void render_logo(void) {
 static void render_status(void) {
     oled_write_P(PSTR("This is\n~~~~~~~~~\nDracu\nLad\n~~~~~~~~~\nv1.0\n~~~~~~~~~\n"), false);
     led_t led_state = host_keyboard_led_state();
-    oled_write_P(PSTR("\nCaps: "), false);
-    oled_write_P(led_state.caps_lock ? PSTR("on ") : PSTR("off"), false);
+    oled_write_P(led_state.caps_lock ? PSTR("CAPS") : PSTR("lower"), false);
     oled_write_P(PSTR("\n"), false);
+    oled_write_P(PSTR("\n"), false);
+    oled_write_P(PSTR("Layer:\n"), false);
     switch (get_highest_layer(layer_state)) {
         case _BASE:
-            oled_write_P(PSTR("Base   "), false);
+            oled_write_P(PSTR("Base    "), false);
+            break;
+        case _COLEMAK:
+            oled_write_P(PSTR("Colemak "), false);
             break;
         case _NUM:
-            oled_write_P(PSTR("Numbers"), false);
+            oled_write_P(PSTR("Numbers "), false);
             break;
         case _SYM:
-            oled_write_P(PSTR("Symbols"), false);
+            oled_write_P(PSTR("Symbols "), false);
             break;
         case _FN:
-            oled_write_P(PSTR("Functn  "), false);
+            oled_write_P(PSTR("Function"), false);
             break;
         case _GAME:
-            oled_write_P(PSTR("Game   "), false);
+            oled_write_P(PSTR("Game    "), false);
             break;
         default:
-            oled_write_P(PSTR("Unkn "), false);
+            oled_write_P(PSTR("        "), false);
             break;
     }
 }
