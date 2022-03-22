@@ -40,7 +40,9 @@
         C_INS,
         C_DEL,
         C_CAPS,
-        C_ENTER
+        C_ENTER,
+        C_R_ALT,
+        C_R_CTL
     };
 
     const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
@@ -58,6 +60,8 @@
     const uint16_t PROGMEM c_ins_combo[] = {KC_L, KC_U, COMBO_END};
     const uint16_t PROGMEM c_enter_combo[] = {KC_I, KC_O, COMBO_END};
     const uint16_t PROGMEM c_caps_combo[] = {LSFT_T(KC_Z), LSFT_T(KC_QUOT), COMBO_END};
+    const uint16_t PROGMEM c_r_alt_combo[] = {LALT_T(KC_C), LALT_T(KC_COMM), COMBO_END};
+    const uint16_t PROGMEM c_r_ctl_combo[] = {LCTL_T(KC_X), LCTL_T(KC_DOT), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
         [TAB] = COMBO(tab_combo, KC_TAB),
@@ -74,7 +78,9 @@
         [C_DEL] = COMBO(c_del_combo, KC_DEL),
         [C_INS] = COMBO(c_ins_combo, KC_INS),
         [C_CAPS] = COMBO(c_caps_combo, KC_CAPS),
-        [C_ENTER] = COMBO(c_enter_combo, KC_ENT)
+        [C_ENTER] = COMBO(c_enter_combo, KC_ENT),
+        [C_R_ALT] = COMBO(c_r_alt_combo, KC_RALT),
+        [C_R_CTL] = COMBO(c_r_ctl_combo, KC_RCTL)
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
