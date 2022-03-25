@@ -17,7 +17,6 @@
     };
 
     enum layer_number {
-        _BASE,
         _COLEMAK,
         _NUM,
         _SYM,
@@ -26,14 +25,6 @@
     };
 
     enum combos {
-        TAB,
-        ESC,
-        INS,
-        DEL,
-        CAPS,
-        ENTER,
-        R_ALT,
-        R_CTL,
         GAME_LR,
         C_TAB,
         C_ESC,
@@ -45,14 +36,6 @@
         C_R_CTL
     };
 
-    const uint16_t PROGMEM tab_combo[] = {KC_QUOT, KC_COMM, COMBO_END};
-    const uint16_t PROGMEM esc_combo[] = {KC_A, KC_O, COMBO_END};
-    const uint16_t PROGMEM del_combo[] = {KC_R, KC_L, COMBO_END};
-    const uint16_t PROGMEM ins_combo[] = {KC_G, KC_C, COMBO_END};
-    const uint16_t PROGMEM enter_combo[] = {KC_N, KC_S, COMBO_END};
-    const uint16_t PROGMEM caps_combo[] = {LSFT_T(KC_SCLN), LSFT_T(KC_Z), COMBO_END};
-    const uint16_t PROGMEM r_alt_combo[] = {LALT_T(KC_J), LALT_T(KC_W), COMBO_END};
-    const uint16_t PROGMEM r_ctl_combo[] = {LCTL_T(KC_Q), LCTL_T(KC_V), COMBO_END};
     const uint16_t PROGMEM g_lr_combo[] = {LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN), COMBO_END};
     const uint16_t PROGMEM c_tab_combo[] = {KC_Q, KC_W, COMBO_END};
     const uint16_t PROGMEM c_esc_combo[] = {KC_A, KC_R, COMBO_END};
@@ -64,14 +47,6 @@
     const uint16_t PROGMEM c_r_ctl_combo[] = {LCTL_T(KC_X), LCTL_T(KC_DOT), COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {
-        [TAB] = COMBO(tab_combo, KC_TAB),
-        [ESC] = COMBO(esc_combo, KC_ESC),
-        [DEL] = COMBO(del_combo, KC_DEL),
-        [INS] = COMBO(ins_combo, KC_INS),
-        [CAPS] = COMBO(caps_combo, KC_CAPS),
-        [ENTER] = COMBO(enter_combo, KC_ENT),
-        [R_ALT] = COMBO(r_alt_combo, KC_RALT),
-        [R_CTL] = COMBO(r_ctl_combo, KC_RCTL),
         [GAME_LR] = COMBO(g_lr_combo, TG(_GAME)),
         [C_TAB] = COMBO(c_tab_combo, KC_TAB),
         [C_ESC] = COMBO(c_esc_combo, KC_ESC),
@@ -84,13 +59,6 @@
     };
 
     const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE] = LAYOUT_draculad(
-        KC_QUOT,         KC_COMM,      KC_DOT,       KC_P,           KC_Y,                   KC_F,    KC_G,          KC_C,         KC_R,         KC_L,
-        KC_A,            KC_O,         KC_E,         KC_U,           KC_I,                   KC_D,    KC_H,          KC_T,         KC_N,         KC_S,
-        LSFT_T(KC_SCLN), LCTL_T(KC_Q), LALT_T(KC_J), LGUI_T(KC_K),   KC_X,                   KC_B,    LGUI_T(KC_M),  LALT_T(KC_W), LCTL_T(KC_V), LSFT_T(KC_Z),
-                                                      TG(_COLEMAK),                                              KC_MUTE,
-                                            XXXXXXX,     XXXXXXX,         XXXXXXX,                      LT(_NUM,KC_BSPC),  LT(_SYM,KC_SPC),  MO(_FN)
-            ),
     [_COLEMAK] = LAYOUT_draculad(
         KC_Q,         KC_W,         KC_F,         KC_P,         KC_B,                   KC_J,    KC_L,          KC_U,            KC_Y,           KC_SCLN,
         KC_A,         KC_R,         KC_S,         KC_T,         KC_G,                   KC_M,    KC_N,          KC_E,            KC_I,           KC_O,
@@ -222,9 +190,6 @@ static void render_status(void) {
     oled_write_P(PSTR("\n"), false);
     oled_write_P(PSTR("Layer:\n"), false);
     switch (get_highest_layer(layer_state)) {
-        case _BASE:
-            oled_write_P(PSTR("Base    "), false);
-            break;
         case _COLEMAK:
             oled_write_P(PSTR("Colemak "), false);
             break;
