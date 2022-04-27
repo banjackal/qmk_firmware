@@ -91,8 +91,8 @@ XXXXXXX,     XXXXXXX,     XXXXXXX,         KC_TRNS,    XXXXXXX,     XXXXXXX
           KC_Z,    KC_Q,       KC_F,       KC_E,    KC_G,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_1,
           KC_LSFT, KC_A,       KC_W,       KC_D,    KC_T,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_2,
           KC_LCTL, KC_X,       KC_S,       KC_C,    KC_B,      XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX, KC_3,
-                  XXXXXXX,                                              XXXXXXX,
-                     KC_ESC,     KC_SPC,    KC_R,      KC_TRNS, KC_TRNS, KC_TRNS
+                  KC_ESC,                                              XXXXXXX,
+                     XXXXXXX,     KC_R,    KC_SPC,      KC_TRNS, KC_TRNS, KC_TRNS
         ),
     };
 #ifdef OLED_ENABLE
