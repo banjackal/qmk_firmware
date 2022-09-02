@@ -2,6 +2,7 @@
 
     enum custom_keycodes {
         LAMBDA = SAFE_RANGE,
+	GO_SET,
     };
 
     bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -11,6 +12,12 @@
                 SEND_STRING("=>");
             } else {
             }
+	    break;
+	    case GO_SET:
+	    if (record->event.pressed) {
+		SEND_STRING(":=");
+	    } else {
+	    }
             break;
         }
         return true;
@@ -76,7 +83,7 @@
     [_SYM] = LAYOUT_draculad(
          KC_EXLM,  KC_AT,    KC_LT,    KC_GT,    LAMBDA,       XXXXXXX,     KC_LBRC,  KC_RBRC,      KC_UNDS,  KC_SLSH,
          KC_BSLS,  KC_HASH,  KC_LPRN,  KC_RPRN,  KC_PIPE,      KC_PERC,  KC_LCBR,  KC_RCBR,      KC_EQL,   KC_MINS,
-         KC_QUES,  KC_GRV,   KC_ASTR,  KC_PLUS,  XXXXXXX,         XXXXXXX,     KC_AMPR,  KC_CIRC,      KC_TILD,  KC_DLR,
+         KC_QUES,  KC_GRV,   KC_ASTR,  KC_PLUS,  GO_SET,         XXXXXXX,     KC_AMPR,  KC_CIRC,      KC_TILD,  KC_DLR,
                                      XXXXXXX,                                              XXXXXXX,
 XXXXXXX,     XXXXXXX,     XXXXXXX,         KC_TRNS,    XXXXXXX,     XXXXXXX
             ),
